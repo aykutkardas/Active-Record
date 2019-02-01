@@ -1,4 +1,4 @@
-import getObjDeepProp from "../src/utils/get-obj-deep-prop";
+import { getObjDeepProp, chunk } from "../src/utils";
 import { expect } from "chai";
 import "mocha";
 
@@ -46,5 +46,9 @@ describe("Utils Functions", () => {
   it("Get-Object-Deep-Prop function found.", () => {
     const result = getObjDeepProp(data[0], "education.isDone");
     expect(result).to.deep.equal(true);
+  });
+  it("Chunk function test", () => {
+    const result = chunk([1, 2, 3, 4], 2);
+    expect(result).to.deep.equal([[1, 2], [3,4]]);
   });
 });

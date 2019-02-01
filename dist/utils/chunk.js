@@ -1,0 +1,2 @@
+"use strict";Object.defineProperty(exports,"__esModule",{value:!0});// Origin: https://github.com/lodash/lodash/blob/master/chunk.js
+var chunk=function(a,b){b=Math.max(b,0);var c=null==a?0:a.length;if(!c||1>b)return[];var d=0,e=0,f=Array(Math.ceil(c/b));for(d;d<c;d+=b)f[e++]=a.slice(d,d+b);return f};exports.default=chunk;
