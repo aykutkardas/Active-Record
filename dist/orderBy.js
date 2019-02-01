@@ -1,1 +1,30 @@
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0});var _typeCheck=require("./type-check"),orderBy=function(a,c,d){return(void 0===d&&(d="ASC"),!(0,_typeCheck.isArray)(a))?[]:(0,_typeCheck.isString)(c)?((0,_typeCheck.isString)(d)||(d="ASC"),d=d.toUpperCase(),(0,_typeCheck.isOneOf)(d,["ASC","DESC"])?"DESC"===d?a.sort(function(d,a){return a[c]>d[c]?1:d[c]>a[c]?-1:0}):"ASC"===d?a.sort(function(d,a){return d[c]>a[c]?1:a[c]>d[c]?-1:0}):void 0:a):a};exports.default=orderBy;
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var type_check_1 = require("./type-check");
+var orderBy = function (data, fieldName, order) {
+    if (order === void 0) { order = "ASC"; }
+    if (!type_check_1.isArray(data)) {
+        return [];
+    }
+    if (!type_check_1.isString(fieldName)) {
+        return data;
+    }
+    if (!type_check_1.isString(order)) {
+        order = "ASC";
+    }
+    order = order.toUpperCase();
+    if (!type_check_1.isOneOf(order, ["ASC", "DESC"])) {
+        return data;
+    }
+    if (order === "DESC") {
+        return data.sort(function (a, b) {
+            return b[fieldName] > a[fieldName] ? 1 : a[fieldName] > b[fieldName] ? -1 : 0;
+        });
+    }
+    if (order === "ASC") {
+        return data.sort(function (a, b) {
+            return a[fieldName] > b[fieldName] ? 1 : b[fieldName] > a[fieldName] ? -1 : 0;
+        });
+    }
+};
+exports.default = orderBy;

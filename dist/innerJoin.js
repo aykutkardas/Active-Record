@@ -1,1 +1,37 @@
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0});var _typeCheck=require("./type-check"),_getObjDeepProp=require("./utils/get-obj-deep-prop"),_getObjDeepProp2=_interopRequireDefault(_getObjDeepProp),_=require("./");function _interopRequireDefault(a){return a&&a.__esModule?a:{default:a}}var __assign=function(){return __assign=Object.assign||function(a){for(var b,c=1,d=arguments.length;c<d;c++)for(var e in b=arguments[c],b)Object.prototype.hasOwnProperty.call(b,e)&&(a[e]=b[e]);return a},__assign.apply(this,arguments)},innerJoin=function(a,b,c,d){return(0,_typeCheck.isArrayOfObject)(a)?(0,_typeCheck.isArrayOfObject)(b)?(0,_typeCheck.isString)(c)&&(0,_typeCheck.isString)(d)?(a=a.map(function(a){var e,f=(0,_.where)(b,(e={},e[d]=(0,_getObjDeepProp2.default)(a,c),e),{deep:!0})[0];return(0,_typeCheck.isObject)(f)?__assign({},a,f):a}),a):a:a:[]};exports.default=innerJoin;
+"use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var type_check_1 = require("./type-check");
+var get_obj_deep_prop_1 = require("./utils/get-obj-deep-prop");
+var _1 = require("./");
+var innerJoin = function (data, otherData, dataFieldName, otherDataFieldName) {
+    if (!type_check_1.isArrayOfObject(data)) {
+        return [];
+    }
+    if (!type_check_1.isArrayOfObject(otherData)) {
+        return data;
+    }
+    if (!type_check_1.isString(dataFieldName) || !type_check_1.isString(otherDataFieldName)) {
+        return data;
+    }
+    data = data.map(function (item) {
+        var _a;
+        var otherDataItem = _1.where(otherData, (_a = {}, _a[otherDataFieldName] = get_obj_deep_prop_1.default(item, dataFieldName), _a), { deep: true })[0];
+        if (type_check_1.isObject(otherDataItem)) {
+            return __assign({}, item, otherDataItem);
+        }
+        return item;
+    });
+    return data;
+};
+exports.default = innerJoin;

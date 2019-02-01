@@ -1,1 +1,142 @@
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0});var _=require("."),_typeCheck=require("./type-check"),__assign=function(){return __assign=Object.assign||function(a){for(var b,c=1,d=arguments.length;c<d;c++)for(var e in b=arguments[c],b)Object.prototype.hasOwnProperty.call(b,e)&&(a[e]=b[e]);return a},__assign.apply(this,arguments)},JsonFunction=/** @class */function(){function a(){this.data=[],this.process=[],this.option={orderBy:null,where:null,limit:null,select:null,schema:null,innerJoin:null},this.config={resetRecord:!0}}return a.prototype.reset=function(){return this.option={orderBy:null,where:null,limit:null,select:null,schema:null,innerJoin:null},this.data=[],this.process=[],this},a.prototype.processManager=function(){var a=this,b=this.option,c=b.orderBy,d=b.where,e=b.limit,f=b.select,g=b.schema,h=b.innerJoin;this.process.forEach(function(b){switch(b){case"orderBy":var i=c[0],j=c[1];a.data=(0,_.orderBy)(a.data,i,j);break;case"where":a.data=(0,_.where)(a.data,d);break;case"limit":var k=e[0],l=e[1];a.data=(0,_.limit)(a.data,k,l);break;case"select":a.data=(0,_.select)(a.data,f);break;case"schema":a.data=(0,_.schema)(a.data,g);break;case"innerJoin":var m=h[0],n=h[1],o=h[2];a.data=(0,_.innerJoin)(a.data,m,n,o);}})},a.prototype.orderBy=function(a,b){return void 0===b&&(b="ASC"),this.option.orderBy=[a,b],this.process.push("orderBy"),this},a.prototype.where=function(a){return this.option.where=a,this.process.push("where"),this},a.prototype.limit=function(a,b){return void 0===a&&(a=10),void 0===b&&(b=0),this.option.limit=[a,b],this.process.push("limit"),this},a.prototype.schema=function(a){return this.option.schema=a,this.process.push("schema"),this},a.prototype.select=function(a){return this.option.select=a,this.process.push("select"),this},a.prototype.innerJoin=function(a,b,c){return this.option.innerJoin=[a,b,c],this.process.push("innerJoin"),this},a.prototype.get=function(a,b){void 0===b&&(b={}),this.data=a;var c=__assign({},this.config,b);b.query&&this.setQuery(b.query),this.processManager();var d=this.data.slice();return!1!==c.resetRecord&&this.reset(),d},a.prototype.getQuery=function(){var a=__assign({},this.option);return this.reset(),a},a.prototype.setQuery=function(a){var b=this;return(0,_typeCheck.isObject)(a)?(this.option=a,Object.keys(a).forEach(function(c){a[c]&&b.process.push(c)}),this):this},a}();exports.default=new JsonFunction;
+"use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var _1 = require(".");
+var type_check_1 = require("./type-check");
+var JsonFunction = /** @class */ (function () {
+    function JsonFunction() {
+        this.data = [];
+        this.process = [];
+        this.option = {
+            orderBy: null,
+            where: null,
+            limit: null,
+            select: null,
+            schema: null,
+            innerJoin: null
+        };
+        this.config = {
+            resetRecord: true
+        };
+    }
+    JsonFunction.prototype.reset = function () {
+        this.option = {
+            orderBy: null,
+            where: null,
+            limit: null,
+            select: null,
+            schema: null,
+            innerJoin: null
+        };
+        this.data = [];
+        this.process = [];
+        return this;
+    };
+    JsonFunction.prototype.processManager = function () {
+        var _this = this;
+        var option = this.option;
+        var orderBy = option.orderBy, where = option.where, limit = option.limit, select = option.select, schema = option.schema, innerJoin = option.innerJoin;
+        this.process.forEach(function (process) {
+            switch (process) {
+                case "orderBy":
+                    var fieldName = orderBy[0], order = orderBy[1];
+                    _this.data = _1.orderBy(_this.data, fieldName, order);
+                    break;
+                case "where":
+                    _this.data = _1.where(_this.data, where);
+                    break;
+                case "limit":
+                    var itemLimit = limit[0], start = limit[1];
+                    _this.data = _1.limit(_this.data, itemLimit, start);
+                    break;
+                case "select":
+                    _this.data = _1.select(_this.data, select);
+                    break;
+                case "schema":
+                    _this.data = _1.schema(_this.data, schema);
+                    break;
+                case "innerJoin":
+                    var otherData = innerJoin[0], dataFieldName = innerJoin[1], otherDataFieldName = innerJoin[2];
+                    _this.data = _1.innerJoin(_this.data, otherData, dataFieldName, otherDataFieldName);
+                    break;
+            }
+        });
+    };
+    JsonFunction.prototype.orderBy = function (fieldName, order) {
+        if (order === void 0) { order = "ASC"; }
+        this.option.orderBy = [fieldName, order];
+        this.process.push("orderBy");
+        return this;
+    };
+    JsonFunction.prototype.where = function (queries) {
+        this.option.where = queries;
+        this.process.push("where");
+        return this;
+    };
+    JsonFunction.prototype.limit = function (limit, start) {
+        if (limit === void 0) { limit = 10; }
+        if (start === void 0) { start = 0; }
+        this.option.limit = [limit, start];
+        this.process.push("limit");
+        return this;
+    };
+    JsonFunction.prototype.schema = function (schema) {
+        this.option.schema = schema;
+        this.process.push("schema");
+        return this;
+    };
+    JsonFunction.prototype.select = function (fields) {
+        this.option.select = fields;
+        this.process.push("select");
+        return this;
+    };
+    JsonFunction.prototype.innerJoin = function (otherData, dataFieldName, otherFiledName) {
+        this.option.innerJoin = [otherData, dataFieldName, otherFiledName];
+        this.process.push("innerJoin");
+        return this;
+    };
+    JsonFunction.prototype.get = function (data, config) {
+        if (config === void 0) { config = {}; }
+        this.data = data;
+        var configs = __assign({}, this.config, config);
+        if (config.query) {
+            this.setQuery(config.query);
+        }
+        this.processManager();
+        var result = this.data.slice();
+        if (configs.resetRecord !== false) {
+            this.reset();
+        }
+        return result;
+    };
+    JsonFunction.prototype.getQuery = function () {
+        var option = __assign({}, this.option);
+        this.reset();
+        return option;
+    };
+    JsonFunction.prototype.setQuery = function (query) {
+        var _this = this;
+        if (!type_check_1.isObject(query)) {
+            return this;
+        }
+        this.option = query;
+        Object.keys(query).forEach(function (process) {
+            if (query[process]) {
+                _this.process.push(process);
+            }
+        });
+        return this;
+    };
+    return JsonFunction;
+}());
+exports.default = new JsonFunction();

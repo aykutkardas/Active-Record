@@ -1,1 +1,20 @@
-'use strict';Object.defineProperty(exports,'__esModule',{value:!0});var _schemaTool=require('./schema-tool'),_schemaTool2=_interopRequireDefault(_schemaTool),_getSchemaValue=require('./schema-tool/get-schema-value'),_getSchemaValue2=_interopRequireDefault(_getSchemaValue);function _interopRequireDefault(a){return a&&a.__esModule?a:{default:a}}var schema=function(a,b){void 0===a&&(a=[]),void 0===b&&(b={});var c=b;'function'==typeof c&&(c=c(_schemaTool2.default));var d=[],e=[];return a.forEach(function(a){var b=JSON.parse(JSON.stringify(c));d.push((0,_getSchemaValue2.default)(b,a,e))}),d};exports.default=schema;
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var schema_tool_1 = require("./schema-tool");
+var get_schema_value_1 = require("./schema-tool/get-schema-value");
+var schema = function (data, schema) {
+    if (data === void 0) { data = []; }
+    if (schema === void 0) { schema = {}; }
+    var schemaObj = schema;
+    if (typeof schemaObj === 'function') {
+        schemaObj = schemaObj(schema_tool_1.default);
+    }
+    var result = [];
+    var fields = [];
+    data.forEach(function (item) {
+        var temp = JSON.parse(JSON.stringify(schemaObj));
+        result.push(get_schema_value_1.default(temp, item, fields));
+    });
+    return result;
+};
+exports.default = schema;

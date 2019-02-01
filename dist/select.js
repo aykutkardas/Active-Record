@@ -1,1 +1,29 @@
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0});var _typeCheck=require("./type-check"),select=function(a,b){if(!(0,_typeCheck.isArray)(a))return[];var c;if((0,_typeCheck.isString)(b))c=[b];else if((0,_typeCheck.isArray)(b))c=b;else return a;return a=a.map(function(a){var b={};return c.forEach(function(c){(0,_typeCheck.isDefined)(a[c])&&(b[c]=a[c])}),b}),a};exports.default=select;
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var type_check_1 = require("./type-check");
+var select = function (data, columns) {
+    if (!type_check_1.isArray(data)) {
+        return [];
+    }
+    var columnsArr;
+    if (type_check_1.isString(columns)) {
+        columnsArr = [columns];
+    }
+    else if (type_check_1.isArray(columns)) {
+        columnsArr = columns;
+    }
+    else {
+        return data;
+    }
+    data = data.map(function (item) {
+        var newItem = {};
+        columnsArr.forEach(function (column) {
+            if (type_check_1.isDefined(item[column])) {
+                newItem[column] = item[column];
+            }
+        });
+        return newItem;
+    });
+    return data;
+};
+exports.default = select;

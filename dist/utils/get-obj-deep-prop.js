@@ -1,1 +1,29 @@
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0});var _typeof="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(a){return typeof a}:function(a){return a&&"function"==typeof Symbol&&a.constructor===Symbol&&a!==Symbol.prototype?"symbol":typeof a},getObjDeepProp=function(a,b,c){if(!a)return!1;if("object"!==("undefined"==typeof a?"undefined":_typeof(a)))return!1;if(!b)return a;if("string"!=typeof b)return!1;var d=b.split("."),e=a;return d.forEach(function(a){return e?"undefined"==typeof e[a]&&null===e[a]&&isNaN(e[a])?void(e=!1):void(e=e[a]):void(e=!1)}),!1===e?c||!1:e};exports.default=getObjDeepProp;
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var getObjDeepProp = function (obj, props, defaultValue) {
+    if (!obj)
+        return false;
+    if (typeof obj !== "object")
+        return false;
+    if (!props)
+        return obj;
+    if (typeof props !== "string")
+        return false;
+    var propsArr = props.split(".");
+    var rootObj = obj;
+    propsArr.forEach(function (prop) {
+        if (!rootObj) {
+            rootObj = false;
+            return;
+        }
+        if (typeof rootObj[prop] !== "undefined" ||
+            rootObj[prop] !== null ||
+            !isNaN(rootObj[prop])) {
+            rootObj = rootObj[prop];
+            return;
+        }
+        rootObj = false;
+    });
+    return rootObj !== false ? rootObj : defaultValue || false;
+};
+exports.default = getObjDeepProp;
