@@ -12,5 +12,7 @@ var schema_1 = require("./schema");
 exports.schema = schema_1.default;
 var innerJoin_1 = require("./innerJoin");
 exports.innerJoin = innerJoin_1.default;
+var pagination_1 = require("./pagination");
+exports.pagination = pagination_1.default;
 var json_function_1 = require("./json-function");
 exports.default = json_function_1.default;
