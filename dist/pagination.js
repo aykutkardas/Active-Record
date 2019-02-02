@@ -10,13 +10,19 @@ var pagination = function (data, itemsPerPage) {
     if (!type_check_1.isNumber(itemsPerPage)) {
         itemsPerPage = 10;
     }
-    var size = data.length;
-    var totalPage = Math.ceil(size / itemsPerPage);
+    var totalItem = data.length;
+    var totalPage = Math.ceil(totalItem / itemsPerPage);
     var chunkData = utils_1.chunk(data, itemsPerPage);
-    return new PaginationObject(chunkData, itemsPerPage, totalPage);
+    return new PaginationObject({
+        data: chunkData,
+        itemsPerPage: itemsPerPage,
+        totalPage: totalPage,
+        totalItem: totalItem
+    });
 };
 var PaginationObject = /** @class */ (function () {
-    function PaginationObject(data, itemsPerPage, totalPage) {
+    function PaginationObject(_a) {
+        var data = _a.data, itemsPerPage = _a.itemsPerPage, totalPage = _a.totalPage, totalItem = _a.totalItem;
         var _this = this;
         this.hasNextPage = function () {
             return _this.data[_this.activePage + 1] ? true : false;
@@ -68,6 +74,7 @@ var PaginationObject = /** @class */ (function () {
         this.itemsPerPage = itemsPerPage;
         this.totalPage = totalPage;
         this.activePage = 0;
+        this.totalItem = totalItem;
     }
     return PaginationObject;
 }());

@@ -2,6 +2,12 @@ import { isArray, isNumber } from "./type-check";
 import { chunk } from "./utils";
 
 type PaginationFunction = (data: any[], itemsPerPage: number) => any;
+type PaginationConstructorObj = {
+  data: any[][];
+  itemsPerPage: number;
+  totalPage: number;
+  totalItem: number;
+};
 
 const pagination: PaginationFunction = (data, itemsPerPage = 10) => {
   if (!isArray(data)) {
@@ -12,24 +18,36 @@ const pagination: PaginationFunction = (data, itemsPerPage = 10) => {
     itemsPerPage = 10;
   }
 
-  const size = data.length;
-  const totalPage = Math.ceil(size / itemsPerPage);
+  const totalItem = data.length;
+  const totalPage = Math.ceil(totalItem / itemsPerPage);
   const chunkData = chunk(data, itemsPerPage);
 
-  return new PaginationObject(chunkData, itemsPerPage, totalPage);
+  return new PaginationObject({
+    data: chunkData,
+    itemsPerPage,
+    totalPage,
+    totalItem
+  });
 };
 
 class PaginationObject {
   data: any[][];
   itemsPerPage: number;
   totalPage: number;
+  totalItem: number;
   activePage: number;
 
-  constructor(data: any[][], itemsPerPage: number, totalPage: number) {
+  constructor({
+    data,
+    itemsPerPage,
+    totalPage,
+    totalItem
+  }: PaginationConstructorObj) {
     this.data = data;
     this.itemsPerPage = itemsPerPage;
     this.totalPage = totalPage;
     this.activePage = 0;
+    this.totalItem = totalItem;
   }
 
   hasNextPage = (): boolean => {
